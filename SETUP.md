@@ -7,14 +7,15 @@
 - Python 3.9以上
 - Node.js 18以上
 - Docker & Docker Compose (オプション)
-- Clarifai APIアカウント
+- Clarifai APIアカウント（画像認識用）
+- OpenAI APIアカウント（プロフィール自動生成用）
 - AWS アカウント (S3用)
 
 ## 1. リポジトリのクローン
 
 ```bash
-git clone <repository-url>
-cd pet_license
+git clone https://github.com/kkoba23/pet-license.git
+cd pet-license
 ```
 
 ## 2. Backend セットアップ
@@ -29,13 +30,22 @@ cp .env.example .env
 `.env` ファイルを編集して以下の値を設定:
 
 ```env
+# Clarifai API (画像認識)
 CLARIFAI_API_KEY=your_clarifai_api_key
+CLARIFAI_PAT=your_clarifai_pat
 CLARIFAI_USER_ID=your_user_id
 CLARIFAI_APP_ID=your_app_id
+
+# OpenAI API (プロフィール自動生成)
+OPENAI_API_KEY=your_openai_api_key
+
+# AWS S3 (画像ストレージ)
 AWS_ACCESS_KEY_ID=your_aws_access_key
 AWS_SECRET_ACCESS_KEY=your_aws_secret_key
 AWS_S3_BUCKET=pet-license-images
 AWS_REGION=ap-northeast-1
+
+# CORS設定
 CORS_ORIGINS=http://localhost:5173
 ```
 
@@ -43,17 +53,27 @@ CORS_ORIGINS=http://localhost:5173
 
 1. [Clarifai](https://clarifai.com/) にアクセス
 2. アカウントを作成またはログイン
-3. 設定 > Security > Personal Access Tokens からAPIキーを生成
+3. 設定 > Security > Personal Access Tokens (PAT) からトークンを生成
 4. User ID と App ID を確認
+5. `.env` に `CLARIFAI_PAT` と `CLARIFAI_API_KEY` の両方を設定
 
-### 2.3 AWS S3の設定
+### 2.3 OpenAI APIキーの取得
+
+1. [OpenAI Platform](https://platform.openai.com/) にアクセス
+2. アカウントを作成またはログイン
+3. API Keys からAPIキーを生成
+4. `.env` に `OPENAI_API_KEY` を設定
+
+**注意**: OpenAI APIキーが設定されていない場合、プロフィール自動生成機能はデフォルト値を返します。
+
+### 2.4 AWS S3の設定
 
 1. AWSコンソールでS3バケットを作成: `pet-license-images`
 2. バケットのパブリックアクセス設定を適切に設定
 3. IAMユーザーを作成し、S3アクセス権限を付与
 4. アクセスキーとシークレットキーを取得
 
-### 2.4 依存関係のインストール
+### 2.5 依存関係のインストール
 
 ```bash
 # 仮想環境の作成
@@ -68,7 +88,7 @@ venv\Scripts\activate  # Windows
 pip install -r requirements.txt
 ```
 
-### 2.5 サーバーの起動
+### 2.6 サーバーの起動
 
 ```bash
 uvicorn app.main:app --reload --host 0.0.0.0 --port 8000
@@ -145,9 +165,18 @@ curl http://localhost:8000/health
 2. ペット画像をアップロード
 3. 「AI分析を実行」をクリック
 4. 結果が表示されることを確認
-5. フォームに情報を入力
-6. 「免許証を生成」をクリック
-7. 生成された免許証が表示されることを確認
+5. 「プロフィールを自動生成」をクリック（OpenAI連携）
+6. フォームに情報を入力または自動生成された値を確認
+7. 「免許証を生成」をクリック
+8. 生成された免許証が表示されることを確認
+
+### 5.3 管理画面テスト
+
+1. http://localhost:5173/admin にアクセス
+2. 初期管理者アカウントでログイン
+   - ユーザー名: `admin`
+   - パスワード: `admin123`（初期パスワード、変更推奨）
+3. イベント作成・管理機能を確認
 
 ## 6. トラブルシューティング
 
@@ -157,7 +186,7 @@ curl http://localhost:8000/health
 ```bash
 # 正しいディレクトリにいるか確認
 pwd
-# /path/to/pet_license/backend であることを確認
+# /path/to/pet-license/backend であることを確認
 
 # パッケージを再インストール
 pip install -r requirements.txt
@@ -172,20 +201,10 @@ pip install --upgrade pip
 pip install clarifai-grpc
 ```
 
-#### 日本語フォントが見つからない
-
-**Linux:**
-```bash
-sudo apt-get install fonts-noto-cjk
-```
-
-**Mac:**
-```bash
-brew install font-noto-sans-cjk
-```
-
-**Windows:**
-- システムに日本語フォントがインストールされていることを確認
+#### OpenAI API エラー
+- APIキーが正しいか確認
+- OpenAI アカウントの利用制限や残高を確認
+- インターネット接続を確認
 
 ### Frontend起動エラー
 
@@ -211,6 +230,7 @@ server: {
 - 両方のサーバーが起動しているか確認
 
 #### Clarifai API エラー
+- PAT（Personal Access Token）が正しいか確認
 - APIキーが正しいか確認
 - Clarifai アカウントの利用制限を確認
 - インターネット接続を確認
@@ -251,6 +271,12 @@ curl -X POST "http://localhost:8000/api/analyze-pet" \
   -H "Content-Type: multipart/form-data" \
   -F "file=@/path/to/pet_image.jpg"
 
+# プロフィール自動生成
+curl -X POST "http://localhost:8000/api/generate-profile" \
+  -F "animal_type=猫" \
+  -F "breed=ブリティッシュショートヘア" \
+  -F "color=グレー"
+
 # 免許証生成
 curl -X POST "http://localhost:8000/api/generate-license" \
   -F "pet_image=@/path/to/pet_image.jpg" \
@@ -261,9 +287,21 @@ curl -X POST "http://localhost:8000/api/generate-license" \
   -F "gender=オス"
 ```
 
-## 8. 次のステップ
+## 8. 主な画面
+
+| パス | 説明 |
+|------|------|
+| `/` | ホーム画面（免許証生成） |
+| `/event/:eventId` | イベント用入力画面 |
+| `/admin` | 管理者ログイン |
+| `/admin/events` | イベント管理 |
+| `/admin/events/:eventId` | イベント詳細・免許証一覧 |
+| `/print/:eventId` | 印刷用画面 |
+
+## 9. 次のステップ
 
 - [DEPLOYMENT.md](./DEPLOYMENT.md) を参照してAWSへのデプロイ方法を確認
+- [FONT_SETUP.md](./FONT_SETUP.md) を参照してフォント設定を確認（バックエンドで画像生成する場合のみ）
 - カスタマイズや機能追加を検討
 - テストの追加
 
