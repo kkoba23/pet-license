@@ -48,3 +48,6 @@ ecs/
 
 # Large font files (download separately)
 backend/app/fonts/*.zip
+
+# Design resources
+image/
