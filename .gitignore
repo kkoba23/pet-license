@@ -1,0 +1,50 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+venv/
+env/
+ENV/
+.venv
+
+# FastAPI / Backend
+.env
+!.env.example
+*.db
+backend/data/
+
+# Node / Frontend
+node_modules/
+dist/
+.DS_Store
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# AWS
+.aws/
+
+# Logs
+*.log
+
+# Storage (local development uploads)
+storage/
+
+# Temporary files
+*.tmp
+*.temp
+.cache/
+
+# Claude Code
+.claude/
+
+# ECS task definitions (may contain secrets)
+ecs/
+
+# Large font files (download separately)
+backend/app/fonts/*.zip
