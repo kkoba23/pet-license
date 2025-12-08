@@ -6,7 +6,11 @@ import os
 from pathlib import Path
 
 # .envファイルを明示的に読み込み（インポートより先に実行）
-env_path = Path(__file__).parent.parent / ".env"
+# Docker環境では/app/.env、ローカルでは相対パス
+if os.path.exists("/app/.env"):
+    env_path = Path("/app/.env")
+else:
+    env_path = Path(__file__).parent.parent / ".env"
 load_dotenv(dotenv_path=env_path)
 print(f"[Main] Loading .env from: {env_path}")
 print(f"[Main] AWS_ACCESS_KEY_ID loaded: {os.getenv('AWS_ACCESS_KEY_ID')}")

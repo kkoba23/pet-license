@@ -15,6 +15,9 @@ RUN pip install --no-cache-dir -r requirements.txt
 # アプリケーションコードをコピー
 COPY ./app ./app
 
+# 本番環境変数ファイルをコピー
+COPY .env.production .env
+
 # データディレクトリを作成
 RUN mkdir -p /app/data /app/storage
 

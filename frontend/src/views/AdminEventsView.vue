@@ -192,7 +192,7 @@ const formatDate = (dateStr: string | null, autoIssueDate: boolean) => {
 }
 
 .admin-header {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: linear-gradient(135deg, #ff9a56 0%, #ff6b35 100%);
   color: white;
   padding: 20px 40px;
   display: flex;
@@ -230,7 +230,7 @@ const formatDate = (dateStr: string | null, autoIssueDate: boolean) => {
 }
 
 .create-button {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: linear-gradient(135deg, #ff9a56 0%, #ff6b35 100%);
   color: white;
   border: none;
   padding: 12px 24px;
@@ -243,7 +243,7 @@ const formatDate = (dateStr: string | null, autoIssueDate: boolean) => {
 
 .create-button:hover {
   transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+  box-shadow: 0 4px 12px rgba(255, 154, 86, 0.4);
 }
 
 .loading,
@@ -332,7 +332,7 @@ const formatDate = (dateStr: string | null, autoIssueDate: boolean) => {
 }
 
 .copy-button {
-  background: #667eea;
+  background: #ff9a56;
   color: white;
   border: none;
   padding: 10px 20px;
@@ -342,7 +342,7 @@ const formatDate = (dateStr: string | null, autoIssueDate: boolean) => {
 }
 
 .copy-button:hover {
-  background: #5a6fd6;
+  background: #e08a4d;
 }
 
 .event-actions {
@@ -351,7 +351,7 @@ const formatDate = (dateStr: string | null, autoIssueDate: boolean) => {
 }
 
 .detail-hint {
-  color: #667eea;
+  color: #ff9a56;
   font-size: 14px;
   font-weight: 500;
 }
@@ -407,7 +407,7 @@ const formatDate = (dateStr: string | null, autoIssueDate: boolean) => {
 
 .form-group input:focus {
   outline: none;
-  border-color: #667eea;
+  border-color: #ff9a56;
 }
 
 .checkbox-label {
@@ -449,13 +449,13 @@ const formatDate = (dateStr: string | null, autoIssueDate: boolean) => {
 }
 
 .submit-button {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: linear-gradient(135deg, #ff9a56 0%, #ff6b35 100%);
   color: white;
   border: none;
 }
 
 .submit-button:hover {
   transform: translateY(-1px);
-  box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+  box-shadow: 0 4px 12px rgba(255, 154, 86, 0.4);
 }
 </style>

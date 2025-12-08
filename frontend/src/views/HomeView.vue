@@ -97,8 +97,21 @@
         <h2>生成された免許証</h2>
         <img :src="canvasLicenseUrl" alt="Pet License" class="license-image" />
         <div class="download-buttons">
-          <a :href="canvasLicenseUrl" :download="`${formData.pet_name}_license.png`" class="btn btn-download">ダウンロード</a>
+          <button @click="handleDownload" class="btn btn-download">ダウンロード</button>
           <button @click="reset" class="btn btn-secondary">新しく作成</button>
+        </div>
+
+        <!-- iOS用モーダル -->
+        <div v-if="showIosModal" class="modal-overlay" @click="showIosModal = false">
+          <div class="modal-content" @click.stop>
+            <h3>📱 写真アプリに保存</h3>
+            <div class="modal-instructions">
+              <p>1. 下の画像を<strong>長押し</strong>してください</p>
+              <p>2.「"写真"に追加」または「画像を保存」を選択</p>
+            </div>
+            <img :src="canvasLicenseUrl" alt="Pet License" class="modal-image" />
+            <button @click="showIosModal = false" class="btn btn-modal-close">閉じる</button>
+          </div>
         </div>
       </section>
     </div>
@@ -120,6 +133,19 @@ const petInfo = ref<PetInfo | null>(null)
 const analyzing = ref(false)
 const generating = ref(false)
 const canvasLicenseUrl = ref<string | null>(null)
+const showIosModal = ref(false)
+
+// iOSデバイスかどうかを判定（Safari、Chrome、その他すべてのブラウザ）
+const isIosDevice = () => {
+  // 方法1: User-Agentで判定
+  const isIosUserAgent = /iPhone|iPad|iPod/.test(navigator.userAgent) && !(window as any).MSStream
+
+  // 方法2: iPadOS 13以降はデスクトップモードでUser-Agentが変わるため、追加の判定
+  // MacでタッチポイントがあるのはiPadOS
+  const isIpadOS = navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1
+
+  return isIosUserAgent || isIpadOS
+}
 
 const formData = ref({
   owner_name: '',
@@ -213,6 +239,23 @@ const generateLicenseCanvas = async () => {
     alert(`免許証生成に失敗しました: ${error.message || '不明なエラー'}`)
   } finally {
     generating.value = false
+  }
+}
+
+const handleDownload = () => {
+  if (!canvasLicenseUrl.value) return
+
+  if (isIosDevice()) {
+    // iOSデバイスの場合はモーダルを表示
+    showIosModal.value = true
+  } else {
+    // Android/PCの場合は直接ダウンロード
+    const link = document.createElement('a')
+    link.href = canvasLicenseUrl.value
+    link.download = `${formData.value.pet_name || 'pet'}_license.png`
+    document.body.appendChild(link)
+    link.click()
+    document.body.removeChild(link)
   }
 }
 
@@ -425,5 +468,73 @@ h2 {
   .pet-info p {
     font-size: 0.9rem;
   }
+}
+
+/* iOS用モーダル */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.8);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  padding: 1rem;
+}
+
+.modal-content {
+  background: white;
+  border-radius: 12px;
+  padding: 1.5rem;
+  max-width: 90%;
+  max-height: 90vh;
+  overflow-y: auto;
+  text-align: center;
+}
+
+.modal-content h3 {
+  margin-top: 0;
+  color: #333;
+  font-size: 1.2rem;
+}
+
+.modal-content p {
+  color: #666;
+  margin-bottom: 1rem;
+  line-height: 1.6;
+}
+
+.modal-image {
+  max-width: 100%;
+  max-height: 50vh;
+  border-radius: 8px;
+  margin-bottom: 1rem;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+}
+
+.modal-instructions {
+  background: #f8f9fa;
+  border-radius: 8px;
+  padding: 1rem;
+  margin-bottom: 1rem;
+}
+
+.modal-instructions p {
+  margin: 0.5rem 0;
+  text-align: left;
+}
+
+.btn-modal-close {
+  background: #6c757d;
+  color: white;
+  width: 100%;
+  margin-top: 0.5rem;
+}
+
+.btn-modal-close:hover {
+  background: #5a6268;
 }
 </style>

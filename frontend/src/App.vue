@@ -15,7 +15,7 @@ import { RouterView } from 'vue-router'
 
 <style scoped>
 header {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: linear-gradient(135deg, #ff9a56 0%, #ff6b35 100%);
   color: white;
   padding: 2rem;
   text-align: center;
@@ -39,7 +39,7 @@ h1 {
 
 main {
   max-width: 1200px;
-  margin: 2rem auto;
+  margin: 0 auto;
   padding: 0 1rem;
 }
 </style>

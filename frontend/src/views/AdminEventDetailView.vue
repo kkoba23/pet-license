@@ -500,7 +500,7 @@ const formatLicenseDate = (dateStr: string | undefined) => {
 }
 
 .admin-header {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: linear-gradient(135deg, #ff9a56 0%, #ff6b35 100%);
   color: white;
   padding: 20px 40px;
   display: flex;
@@ -699,7 +699,7 @@ const formatLicenseDate = (dateStr: string | undefined) => {
 }
 
 .copy-button {
-  background: #667eea;
+  background: #ff9a56;
   color: white;
   border: none;
   padding: 10px 20px;
@@ -709,7 +709,7 @@ const formatLicenseDate = (dateStr: string | undefined) => {
 }
 
 .copy-button:hover {
-  background: #5a6fd6;
+  background: #e08a4d;
 }
 
 .qr-hint {
@@ -770,7 +770,7 @@ const formatLicenseDate = (dateStr: string | undefined) => {
 
 .form-group input:focus {
   outline: none;
-  border-color: #667eea;
+  border-color: #ff9a56;
 }
 
 .checkbox-label {
@@ -812,14 +812,14 @@ const formatLicenseDate = (dateStr: string | undefined) => {
 }
 
 .submit-button {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: linear-gradient(135deg, #ff9a56 0%, #ff6b35 100%);
   color: white;
   border: none;
 }
 
 .submit-button:hover {
   transform: translateY(-1px);
-  box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+  box-shadow: 0 4px 12px rgba(255, 154, 86, 0.4);
 }
 
 .submit-button:disabled,
@@ -960,7 +960,7 @@ const formatLicenseDate = (dateStr: string | undefined) => {
   position: absolute;
   top: 8px;
   left: 8px;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: linear-gradient(135deg, #ff9a56 0%, #ff6b35 100%);
   color: white;
   padding: 4px 10px;
   border-radius: 12px;
@@ -1037,7 +1037,7 @@ const formatLicenseDate = (dateStr: string | undefined) => {
 /* 受付番号バッジ（モーダル内） */
 .modal-receipt-badge {
   display: inline-block;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: linear-gradient(135deg, #ff9a56 0%, #ff6b35 100%);
   color: white;
   padding: 8px 16px;
   border-radius: 20px;
@@ -1110,7 +1110,7 @@ const formatLicenseDate = (dateStr: string | undefined) => {
 }
 
 .download-button {
-  background: #667eea;
+  background: #ff9a56;
   color: white;
   padding: 10px 20px;
   border-radius: 6px;
@@ -1119,7 +1119,7 @@ const formatLicenseDate = (dateStr: string | undefined) => {
 }
 
 .download-button:hover {
-  background: #5a6fd6;
+  background: #e08a4d;
 }
 
 @media (max-width: 768px) {

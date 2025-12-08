@@ -11,6 +11,7 @@ ENV/
 
 # FastAPI / Backend
 .env
+.env.production
 !.env.example
 *.db
 backend/data/

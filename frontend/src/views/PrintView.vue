@@ -787,7 +787,7 @@ onUnmounted(() => {
 
 .modal-receipt-badge {
   display: inline-block;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: linear-gradient(135deg, #ff9a56 0%, #ff6b35 100%);
   color: white;
   padding: 10px 24px;
   border-radius: 25px;
@@ -886,7 +886,7 @@ onUnmounted(() => {
 .print-button {
   padding: 14px 60px;
   font-size: 18px;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: linear-gradient(135deg, #ff9a56 0%, #ff6b35 100%);
   color: white;
   border: none;
   border-radius: 30px;
